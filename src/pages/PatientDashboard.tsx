@@ -5,11 +5,16 @@ import { Badge } from "@/components/ui/badge";
 import { MedicalButton } from "@/components/ui/button-variants";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { mockPatient, mockAccessPermissions } from "@/data/mockData";
+import { mockPatient2, mockPatient3 } from "@/data/additionalMockData";
 import { useNavigate } from "react-router-dom";
 
 const PatientDashboard = () => {
   const navigate = useNavigate();
-  const [patient] = useState(mockPatient);
+  
+  // Randomly select a patient for demo purposes
+  const patients = [mockPatient, mockPatient2, mockPatient3];
+  const randomPatient = patients[Math.floor(Math.random() * patients.length)];
+  const [patient] = useState(randomPatient);
   const [permissions] = useState(mockAccessPermissions);
 
   const getStatusColor = (status: string) => {

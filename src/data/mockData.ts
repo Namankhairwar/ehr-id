@@ -10,12 +10,26 @@ export const mockUsers: User[] = [
   },
   {
     id: '2',
+    name: 'Rahul Verma',
+    email: 'rahul.verma@email.com',
+    role: 'patient',
+    ehrId: 'EHR2024002',
+  },
+  {
+    id: '3',
+    name: 'Arun Kumar',
+    email: 'arun.kumar@email.com',
+    role: 'patient',
+    ehrId: 'EHR2024003',
+  },
+  {
+    id: '4',
     name: 'Dr. Rajesh Kumar',
     email: 'dr.rajesh@aiimshospital.com',
     role: 'doctor',
   },
   {
-    id: '3',
+    id: '5',
     name: 'Admin Sunita Verma',
     email: 'admin@fortishospital.com',
     role: 'hospital_admin',

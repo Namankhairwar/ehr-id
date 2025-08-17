@@ -45,7 +45,7 @@ export const DemoModal = ({ isOpen, onClose, title, description, content }: Demo
         </div>
 
         <div className="flex justify-end mt-6">
-          <MedicalButton onClick={onClose} variant="outline">
+          <MedicalButton onClick={onClose} variant="outline" className="opacity-100 [&>span]:opacity-100">
             Close
           </MedicalButton>
         </div>

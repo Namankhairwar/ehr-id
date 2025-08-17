@@ -102,6 +102,7 @@ const Index = () => {
               <MedicalButton 
                 variant="outline" 
                 size="lg"
+                className="opacity-100 [&>span]:opacity-100"
                 onClick={() => openModal(
                   "Learn More About E.H.R. ID",
                   "Comprehensive healthcare record management platform",
@@ -133,7 +134,8 @@ const Index = () => {
               return (
                 <div 
                   key={index} 
-                  className="medical-card p-6 hover:scale-105 transition-all duration-300"
+                  className="medical-card p-6 hover:scale-105 transition-all duration-300 cursor-pointer"
+                  onClick={() => openModal(feature.title, "Coming Soon", `${feature.title} feature is currently under development. Stay tuned for updates!`)}
                 >
                   <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary-hover rounded-lg flex items-center justify-center mb-4">
                     <Icon className="w-6 h-6 text-white" />
