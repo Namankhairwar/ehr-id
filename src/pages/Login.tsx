@@ -1,15 +1,20 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FileText, User, Stethoscope, Building2, Shield } from "lucide-react";
+import { FileText, User, Stethoscope, Building2, Shield, Smartphone, ArrowLeft } from "lucide-react";
 import { MedicalButton } from "@/components/ui/button-variants";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
+import { OTPInput } from "@/components/ui/otp-input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Login = () => {
   const [selectedRole, setSelectedRole] = useState<'patient' | 'doctor' | 'hospital_admin' | null>(null);
-  const [credentials, setCredentials] = useState({ email: '', password: '', ehrId: '' });
+  const [credentials, setCredentials] = useState({ email: '', password: '', ehrId: '', phone: '' });
+  const [loginMethod, setLoginMethod] = useState<'password' | 'otp'>('password');
+  const [otpSent, setOtpSent] = useState(false);
+  const [showOtpInput, setShowOtpInput] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -40,6 +45,17 @@ const Login = () => {
   const handleLogin = () => {
     if (!selectedRole) return;
     
+    if (loginMethod === 'otp' && !otpSent) {
+      // Send OTP
+      setOtpSent(true);
+      setShowOtpInput(true);
+      toast({
+        title: "OTP Sent",
+        description: `OTP sent to ${credentials.phone || credentials.email}`,
+      });
+      return;
+    }
+    
     // Mock authentication - in real app, this would validate credentials
     toast({
       title: "Login Successful",
@@ -56,11 +72,39 @@ const Login = () => {
     navigate(routes[selectedRole]);
   };
 
+  const handleOtpComplete = (otp: string) => {
+    if (otp === "123456") { // Mock OTP verification
+      toast({
+        title: "OTP Verified",
+        description: "Successfully logged in with OTP",
+      });
+      handleLogin();
+    } else {
+      toast({
+        title: "Invalid OTP",
+        description: "Please enter the correct OTP",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const sendOtp = () => {
+    if (!credentials.phone && !credentials.email) {
+      toast({
+        title: "Enter Contact Info",
+        description: "Please enter phone number or email for OTP",
+        variant: "destructive",
+      });
+      return;
+    }
+    handleLogin();
+  };
+
   const getDemoCredentials = (role: string) => {
     const demos = {
-      patient: { email: 'sarah.johnson@email.com', password: 'demo123', ehrId: 'EHR2024001' },
-      doctor: { email: 'dr.chen@healthcenter.com', password: 'demo123', ehrId: '' },
-      hospital_admin: { email: 'admin@cityhospital.com', password: 'demo123', ehrId: '' },
+      patient: { email: 'priya.sharma@email.com', password: 'demo123', ehrId: 'EHR2024001', phone: '+91 98765 43210' },
+      doctor: { email: 'dr.rajesh@aiimshospital.com', password: 'demo123', ehrId: '', phone: '+91 98765 11111' },
+      hospital_admin: { email: 'admin@fortishospital.com', password: 'demo123', ehrId: '', phone: '+91 98765 22222' },
     };
     return demos[role as keyof typeof demos];
   };
@@ -136,57 +180,128 @@ const Login = () => {
             </CardHeader>
 
             <CardContent className="space-y-4">
-              {selectedRole === 'patient' && (
-                <div className="space-y-2">
-                  <Label htmlFor="ehrId">EHR ID</Label>
-                  <Input
-                    id="ehrId"
-                    placeholder="Enter your EHR ID"
-                    value={credentials.ehrId}
-                    onChange={(e) => setCredentials(prev => ({ ...prev, ehrId: e.target.value }))}
-                  />
-                </div>
-              )}
+              {/* Login Method Selection */}
+              <Tabs value={loginMethod} onValueChange={(value) => setLoginMethod(value as 'password' | 'otp')} className="w-full">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="password" className="flex items-center space-x-2">
+                    <Shield className="w-4 h-4" />
+                    <span>Password</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="otp" className="flex items-center space-x-2">
+                    <Smartphone className="w-4 h-4" />
+                    <span>OTP</span>
+                  </TabsTrigger>
+                </TabsList>
 
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="Enter your email"
-                  value={credentials.email}
-                  onChange={(e) => setCredentials(prev => ({ ...prev, email: e.target.value }))}
-                />
-              </div>
+                <TabsContent value="password" className="space-y-4 mt-4">
+                  {selectedRole === 'patient' && (
+                    <div className="space-y-2">
+                      <Label htmlFor="ehrId">EHR ID</Label>
+                      <Input
+                        id="ehrId"
+                        placeholder="Enter your EHR ID"
+                        value={credentials.ehrId}
+                        onChange={(e) => setCredentials(prev => ({ ...prev, ehrId: e.target.value }))}
+                      />
+                    </div>
+                  )}
 
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Enter your password"
-                  value={credentials.password}
-                  onChange={(e) => setCredentials(prev => ({ ...prev, password: e.target.value }))}
-                />
-              </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      value={credentials.email}
+                      onChange={(e) => setCredentials(prev => ({ ...prev, email: e.target.value }))}
+                    />
+                  </div>
 
-              <div className="space-y-3 pt-4">
-                <MedicalButton 
-                  className="w-full" 
-                  onClick={handleLogin}
-                >
-                  <Shield className="w-4 h-4 mr-2" />
-                  Secure Login
-                </MedicalButton>
+                  <div className="space-y-2">
+                    <Label htmlFor="password">Password</Label>
+                    <Input
+                      id="password"
+                      type="password"
+                      placeholder="Enter your password"
+                      value={credentials.password}
+                      onChange={(e) => setCredentials(prev => ({ ...prev, password: e.target.value }))}
+                    />
+                  </div>
 
-                <div className="text-center">
-                  <button
-                    onClick={() => setCredentials(getDemoCredentials(selectedRole))}
-                    className="text-sm text-primary hover:underline"
+                  <MedicalButton 
+                    className="w-full" 
+                    onClick={handleLogin}
                   >
-                    Use Demo Credentials
-                  </button>
-                </div>
+                    <Shield className="w-4 h-4 mr-2" />
+                    Secure Login
+                  </MedicalButton>
+                </TabsContent>
+
+                <TabsContent value="otp" className="space-y-4 mt-4">
+                  {selectedRole === 'patient' && (
+                    <div className="space-y-2">
+                      <Label htmlFor="ehrIdOtp">EHR ID</Label>
+                      <Input
+                        id="ehrIdOtp"
+                        placeholder="Enter your EHR ID"
+                        value={credentials.ehrId}
+                        onChange={(e) => setCredentials(prev => ({ ...prev, ehrId: e.target.value }))}
+                      />
+                    </div>
+                  )}
+
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Phone Number</Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      placeholder="Enter your phone number"
+                      value={credentials.phone}
+                      onChange={(e) => setCredentials(prev => ({ ...prev, phone: e.target.value }))}
+                    />
+                  </div>
+
+                  {!showOtpInput ? (
+                    <MedicalButton 
+                      className="w-full" 
+                      onClick={sendOtp}
+                    >
+                      <Smartphone className="w-4 h-4 mr-2" />
+                      Send OTP
+                    </MedicalButton>
+                  ) : (
+                    <div className="space-y-4">
+                      <div className="text-center">
+                        <p className="text-sm text-muted-foreground mb-4">
+                          Enter the 6-digit OTP sent to {credentials.phone}
+                        </p>
+                        <OTPInput onComplete={handleOtpComplete} />
+                        <p className="text-xs text-muted-foreground mt-2">
+                          Demo OTP: 123456
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => {
+                          setShowOtpInput(false);
+                          setOtpSent(false);
+                        }}
+                        className="w-full text-sm text-primary hover:underline flex items-center justify-center space-x-1"
+                      >
+                        <ArrowLeft className="w-4 h-4" />
+                        <span>Back to Phone Number</span>
+                      </button>
+                    </div>
+                  )}
+                </TabsContent>
+              </Tabs>
+
+              <div className="text-center">
+                <button
+                  onClick={() => setCredentials(getDemoCredentials(selectedRole))}
+                  className="text-sm text-primary hover:underline"
+                >
+                  Use Demo Credentials
+                </button>
               </div>
 
               <div className="bg-muted/50 p-3 rounded-lg text-center text-sm text-muted-foreground">

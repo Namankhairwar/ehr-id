@@ -1,8 +1,35 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Shield, Users, FileText, Search, Clock, Smartphone } from "lucide-react";
 import { MedicalButton } from "@/components/ui/button-variants";
+import { DemoModal } from "@/components/ui/demo-modal";
 
 const Index = () => {
+  const [modalState, setModalState] = useState<{
+    isOpen: boolean;
+    title: string;
+    description: string;
+    content?: string;
+  }>({
+    isOpen: false,
+    title: '',
+    description: '',
+    content: '',
+  });
+
+  const openModal = (title: string, description: string, content?: string) => {
+    setModalState({
+      isOpen: true,
+      title,
+      description,
+      content,
+    });
+  };
+
+  const closeModal = () => {
+    setModalState(prev => ({ ...prev, isOpen: false }));
+  };
+
   const features = [
     {
       icon: Shield,
@@ -72,7 +99,15 @@ const Index = () => {
               <Link to="/login">
                 <MedicalButton size="lg">Get Started Today</MedicalButton>
               </Link>
-              <MedicalButton variant="outline" size="lg">
+              <MedicalButton 
+                variant="outline" 
+                size="lg"
+                onClick={() => openModal(
+                  "Learn More About E.H.R. ID",
+                  "Comprehensive healthcare record management platform",
+                  "E.H.R. ID is designed to securely connect patients, doctors, and hospitals through a unified healthcare record system. Our platform ensures HIPAA compliance, end-to-end encryption, and seamless integration with existing hospital systems. Key benefits include instant access to medical records during emergencies, streamlined patient consent management, and comprehensive audit trails for all data access."
+                )}
+              >
                 Learn More
               </MedicalButton>
             </div>
@@ -156,28 +191,28 @@ const Index = () => {
             <div>
               <h3 className="font-semibold mb-4">Platform</h3>
               <ul className="space-y-2 text-slate-400">
-                <li>For Patients</li>
-                <li>For Doctors</li>
-                <li>For Hospitals</li>
-                <li>Emergency Access</li>
+                <li><button onClick={() => openModal("For Patients", "Patient portal features", "Access your complete medical history, manage permissions for healthcare providers, schedule appointments, view lab results, and securely communicate with your healthcare team.")} className="hover:text-white transition-colors cursor-pointer">For Patients</button></li>
+                <li><button onClick={() => openModal("For Doctors", "Doctor portal features", "Access authorized patient records, add medical notes, manage prescriptions, collaborate with other healthcare providers, and maintain comprehensive patient care documentation.")} className="hover:text-white transition-colors cursor-pointer">For Doctors</button></li>
+                <li><button onClick={() => openModal("For Hospitals", "Hospital admin features", "Manage hospital records, patient registrations, staff permissions, compliance monitoring, and integration with existing hospital management systems.")} className="hover:text-white transition-colors cursor-pointer">For Hospitals</button></li>
+                <li><button onClick={() => openModal("Emergency Access", "Emergency medical access", "In critical situations, authorized emergency personnel can access essential medical information including allergies, current medications, emergency contacts, and critical health conditions.")} className="hover:text-white transition-colors cursor-pointer">Emergency Access</button></li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold mb-4">Security</h3>
               <ul className="space-y-2 text-slate-400">
-                <li>Data Encryption</li>
-                <li>Privacy Policy</li>
-                <li>Compliance</li>
-                <li>Terms of Service</li>
+                <li><button onClick={() => openModal("Data Encryption", "End-to-end encryption", "All data is encrypted using AES-256 encryption both in transit and at rest. Our encryption keys are managed through industry-standard key management systems with regular rotation.")} className="hover:text-white transition-colors cursor-pointer">Data Encryption</button></li>
+                <li><button onClick={() => openModal("Privacy Policy", "Your privacy matters", "We are committed to protecting your privacy and comply with all applicable healthcare privacy laws including HIPAA. We never sell your data and only share it with authorized healthcare providers.")} className="hover:text-white transition-colors cursor-pointer">Privacy Policy</button></li>
+                <li><button onClick={() => openModal("Compliance", "Healthcare compliance", "Our platform is fully HIPAA compliant and follows industry best practices for healthcare data security. We undergo regular security audits and maintain certifications required for healthcare technology.")} className="hover:text-white transition-colors cursor-pointer">Compliance</button></li>
+                <li><button onClick={() => openModal("Terms of Service", "Usage terms and conditions", "By using E.H.R. ID, you agree to our terms of service which outline the proper use of our platform, user responsibilities, and service limitations.")} className="hover:text-white transition-colors cursor-pointer">Terms of Service</button></li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold mb-4">Support</h3>
               <ul className="space-y-2 text-slate-400">
-                <li>Help Center</li>
-                <li>Contact Us</li>
-                <li>Documentation</li>
-                <li>System Status</li>
+                <li><button onClick={() => openModal("Help Center", "Get assistance", "Find answers to common questions, access user guides, and learn how to make the most of the E.H.R. ID platform. Our comprehensive help center is available 24/7.")} className="hover:text-white transition-colors cursor-pointer">Help Center</button></li>
+                <li><button onClick={() => openModal("Contact Us", "Reach our support team", "Our support team is available 24/7 to help you with any questions or issues. Contact us via phone, email, or live chat for immediate assistance.")} className="hover:text-white transition-colors cursor-pointer">Contact Us</button></li>
+                <li><button onClick={() => openModal("Documentation", "Developer and user docs", "Access comprehensive documentation for developers, administrators, and end users. Includes API documentation, integration guides, and user manuals.")} className="hover:text-white transition-colors cursor-pointer">Documentation</button></li>
+                <li><button onClick={() => openModal("System Status", "Platform health status", "Check the real-time status of our platform, including uptime statistics, maintenance schedules, and any ongoing issues that might affect service availability.")} className="hover:text-white transition-colors cursor-pointer">System Status</button></li>
               </ul>
             </div>
           </div>
@@ -186,6 +221,14 @@ const Index = () => {
           </div>
         </div>
       </footer>
+      
+      <DemoModal
+        isOpen={modalState.isOpen}
+        onClose={closeModal}
+        title={modalState.title}
+        description={modalState.description}
+        content={modalState.content}
+      />
     </div>
   );
 };
