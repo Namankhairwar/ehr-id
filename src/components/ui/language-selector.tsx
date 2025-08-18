@@ -37,7 +37,9 @@ export const LanguageSelector = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent 
         align="end" 
-        className="w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg z-50"
+        className="w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg z-[100]"
+        side="bottom"
+        sideOffset={5}
       >
         {languages.map((language) => (
           <DropdownMenuItem
@@ -46,11 +48,11 @@ export const LanguageSelector = () => {
               setLanguage(language.code);
               setIsOpen(false);
             }}
-            className={`flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 ${
+            className={`flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
               currentLanguage === language.code ? 'bg-blue-50 dark:bg-blue-900/20' : ''
             }`}
           >
-            <span className="text-sm font-medium">{language.nativeName}</span>
+            <span className="text-sm font-medium text-foreground">{language.nativeName}</span>
             <span className="text-xs text-muted-foreground">{language.name}</span>
           </DropdownMenuItem>
         ))}
