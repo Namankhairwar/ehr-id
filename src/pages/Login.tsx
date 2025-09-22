@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FileText, User, Stethoscope, Building2, Shield, Smartphone, ArrowLeft } from "lucide-react";
+import { FileText, User, Stethoscope, Building2, Shield, Smartphone, ArrowLeft, ArrowRight } from "lucide-react";
 import { MedicalButton } from "@/components/ui/button-variants";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -111,6 +111,24 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-medical-blue-light via-white to-blue-50 flex items-center justify-center p-4">
+      {/* Step Navigation */}
+      <div className="fixed top-4 left-4 right-4 flex justify-between z-10">
+        <button
+          onClick={() => navigate("/register")}
+          className="flex items-center space-x-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-lg shadow-md hover:bg-white transition-all duration-200"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span className="text-sm font-medium">Register</span>
+        </button>
+        <button
+          onClick={() => navigate("/")}
+          className="flex items-center space-x-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-lg shadow-md hover:bg-white transition-all duration-200"
+        >
+          <span className="text-sm font-medium">Home</span>
+          <ArrowRight className="w-4 h-4" />
+        </button>
+      </div>
+      
       <div className="w-full max-w-4xl">
         {/* Header */}
         <div className="text-center mb-8">

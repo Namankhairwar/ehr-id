@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Stethoscope, User, Building2, ArrowLeft } from "lucide-react";
+import { Stethoscope, User, Building2, ArrowLeft, ArrowRight } from "lucide-react";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -229,6 +229,24 @@ const Registration = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 flex items-center justify-center p-4">
+      {/* Step Navigation */}
+      <div className="fixed top-4 left-4 right-4 flex justify-between z-10">
+        <button
+          onClick={() => navigate("/")}
+          className="flex items-center space-x-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-lg shadow-md hover:bg-white transition-all duration-200"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span className="text-sm font-medium">Home</span>
+        </button>
+        <button
+          onClick={() => navigate("/login")}
+          className="flex items-center space-x-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-lg shadow-md hover:bg-white transition-all duration-200"
+        >
+          <span className="text-sm font-medium">Login</span>
+          <ArrowRight className="w-4 h-4" />
+        </button>
+      </div>
+      
       <div className="w-full max-w-4xl">
         {/* Header */}
         <div className="text-center mb-8">
