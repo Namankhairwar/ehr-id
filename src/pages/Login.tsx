@@ -295,6 +295,19 @@ const Login = () => {
                 </TabsContent>
               </Tabs>
 
+              {/* Registration Link */}
+              <div className="text-center">
+                <p className="text-muted-foreground">
+                  Don't have an account?{" "}
+                  <button
+                    onClick={() => navigate("/register")}
+                    className="font-semibold text-primary hover:underline"
+                  >
+                    Register here
+                  </button>
+                </p>
+              </div>
+
               <div className="text-center">
                 <button
                   onClick={() => setCredentials(getDemoCredentials(selectedRole))}

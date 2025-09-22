@@ -79,12 +79,20 @@ const Splash = () => {
             </div>
 
             {/* Call to Action */}
-            <button
-              onClick={handleContinue}
-              className="bg-white text-primary hover:bg-blue-50 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 shadow-lg"
-            >
-              Enter Platform
-            </button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button
+                onClick={() => navigate('/register')}
+                className="bg-white text-primary hover:bg-blue-50 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 shadow-lg"
+              >
+                Get Started
+              </button>
+              <button
+                onClick={() => navigate('/login')}
+                className="bg-white/10 backdrop-blur-sm border border-white/30 text-white hover:bg-white/20 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105"
+              >
+                Sign In
+              </button>
+            </div>
           </div>
         )}
       </div>

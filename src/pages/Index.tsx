@@ -82,8 +82,11 @@ const Index = () => {
           </div>
           <div className="flex items-center gap-3">
             <LanguageSelector />
+            <Link to="/register">
+              <MedicalButton variant="secondary">Register</MedicalButton>
+            </Link>
             <Link to="/login">
-              <MedicalButton variant="primary">{t('access.platform')}</MedicalButton>
+              <MedicalButton variant="primary">Sign In</MedicalButton>
             </Link>
           </div>
         </div>
@@ -101,8 +104,11 @@ const Index = () => {
               {t('hero.description')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/register">
+                <MedicalButton size="lg" className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700">{t('get.started')}</MedicalButton>
+              </Link>
               <Link to="/login">
-                <MedicalButton size="lg">{t('get.started')}</MedicalButton>
+                <MedicalButton variant="secondary" size="lg">Sign In</MedicalButton>
               </Link>
             </div>
           </div>
@@ -155,15 +161,26 @@ const Index = () => {
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
             {t('cta.description')}
           </p>
-          <Link to="/login">
-            <MedicalButton 
-              variant="secondary" 
-              size="lg"
-              className="bg-white text-primary hover:bg-blue-50"
-            >
-              {t('start.journey')}
-            </MedicalButton>
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/register">
+              <MedicalButton 
+                variant="secondary" 
+                size="lg"
+                className="bg-white text-primary hover:bg-blue-50"
+              >
+                {t('start.journey')}
+              </MedicalButton>
+            </Link>
+            <Link to="/login">
+              <MedicalButton 
+                variant="outline" 
+                size="lg"
+                className="border-white text-white hover:bg-white/10"
+              >
+                Already have account? Sign In
+              </MedicalButton>
+            </Link>
+          </div>
         </div>
       </section>
 
