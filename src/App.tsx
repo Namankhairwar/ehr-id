@@ -7,6 +7,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import Splash from "./pages/Splash";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
+import Registration from "./pages/Registration";
 import PatientDashboard from "./pages/PatientDashboard";
 import DoctorDashboard from "./pages/DoctorDashboard";
 import HospitalDashboard from "./pages/HospitalDashboard";
@@ -25,6 +26,7 @@ const App = () => (
             <Route path="/" element={<Splash />} />
             <Route path="/home" element={<Index />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Registration />} />
             <Route path="/patient" element={<PatientDashboard />} />
             <Route path="/doctor" element={<DoctorDashboard />} />
             <Route path="/hospital" element={<HospitalDashboard />} />
