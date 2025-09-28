@@ -97,14 +97,6 @@ const Splash = () => {
         )}
       </div>
 
-      {/* Footer */}
-      <div className="absolute bottom-8 text-center">
-        <p className="text-white/60 text-sm flex items-center justify-center space-x-1">
-          <span>Made with</span>
-          <Heart className="w-4 h-4 text-red-300 fill-current" />
-          <span>by VANS</span>
-        </p>
-      </div>
     </div>
   );
 };
