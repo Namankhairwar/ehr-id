@@ -178,6 +178,7 @@ const DoctorDashboard = () => {
                         >
                           <Eye className="w-4 h-4 mr-1" />
                           View Records
+                          onClick={() => navigate('/login')}
                         </MedicalButton>
                       </div>
                     </div>
