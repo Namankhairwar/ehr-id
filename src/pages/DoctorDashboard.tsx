@@ -85,9 +85,13 @@ const DoctorDashboard = () => {
               <p className="font-medium text-foreground">Dr. Michael Chen</p>
               <p className="text-sm text-muted-foreground">Internal Medicine</p>
             </div>
-            <MedicalButton variant="outline" onClick={() => navigate('/login')}>
-              Logout
-            </MedicalButton>
+            <MedicalButton 
+  variant="outline" 
+  className="text-black"
+  onClick={() => navigate('/login')}
+>
+  Logout
+</MedicalButton>
           </div>
         </div>
       </header>
