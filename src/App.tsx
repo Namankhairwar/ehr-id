@@ -11,6 +11,7 @@ import Registration from "./pages/Registration";
 import PatientDashboard from "./pages/PatientDashboard";
 import DoctorDashboard from "./pages/DoctorDashboard";
 import HospitalDashboard from "./pages/HospitalDashboard";
+import PatientRecords from "./pages/PatientRecords";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
