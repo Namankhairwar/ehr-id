@@ -1,22 +1,53 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { FileText, Shield, Users, Heart } from "lucide-react";
+import { FileText, Shield, Users } from "lucide-react";
 
 const Splash = () => {
+  const [videoEnded, setVideoEnded] = useState(false);
   const [loading, setLoading] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 3000);
+    if (videoEnded) {
+      const timer = setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [videoEnded]);
 
-    return () => clearTimeout(timer);
-  }, []);
-
-  const handleContinue = () => {
-    navigate('/home');
+  const handleVideoEnd = () => {
+    setVideoEnded(true);
   };
+
+  // Show video intro first
+  if (!videoEnded) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-medical-blue via-primary to-primary-hover flex items-center justify-center relative overflow-hidden">
+        {/* Gradient overlay to blend video with theme */}
+        <div className="absolute inset-0 bg-gradient-to-br from-medical-blue/30 via-primary/20 to-primary-hover/30 z-10 pointer-events-none" />
+        
+        <video
+          ref={videoRef}
+          src="/videos/splash-intro.mp4"
+          autoPlay
+          muted
+          playsInline
+          onEnded={handleVideoEnd}
+          className="w-full h-full object-cover absolute inset-0"
+        />
+
+        {/* Skip button */}
+        <button
+          onClick={handleVideoEnd}
+          className="absolute bottom-8 right-8 z-20 bg-white/10 backdrop-blur-sm border border-white/30 text-white hover:bg-white/20 px-6 py-2 rounded-lg font-medium text-sm transition-all duration-300"
+        >
+          Skip
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-medical-blue via-primary to-primary-hover flex flex-col items-center justify-center relative overflow-hidden">
@@ -96,7 +127,6 @@ const Splash = () => {
           </div>
         )}
       </div>
-
     </div>
   );
 };
