@@ -174,7 +174,7 @@ const DoctorDashboard = () => {
                         <MedicalButton 
                           variant="outline" 
                           size="sm"
-                          onClick={() => setSelectedPatient(mockPatient)}
+                          onClick={() => navigate(`/doctor/patient/${patient.id}`)}
                         >
                           <Eye className="w-4 h-4 mr-1" />
                           View Records
