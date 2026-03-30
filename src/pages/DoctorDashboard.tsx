@@ -13,9 +13,7 @@ const DoctorDashboard = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedPatient, setSelectedPatient] = useState(mockPatient);
-
-  // Mock data for doctor's authorized patients
-  const authorizedPatients = [
+  const [authorizedPatients, setAuthorizedPatients] = useState([
     {
       id: '1',
       name: 'Sarah Johnson',
@@ -40,7 +38,11 @@ const DoctorDashboard = () => {
       condition: 'Hypertension',
       priority: 'medium',
     },
-  ];
+  ]);
+
+  const handleAddPatient = (patient: typeof authorizedPatients[0]) => {
+    setAuthorizedPatients((prev) => [...prev, patient]);
+  };
 
   const todayAppointments = [
     { time: '09:00', patient: 'Sarah Johnson', type: 'Follow-up', status: 'confirmed' },
