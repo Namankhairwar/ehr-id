@@ -114,12 +114,13 @@ const AddPatientDialog = ({ onAdd, existingCount }: AddPatientDialogProps) => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="ehrId">EHR ID *</Label>
+            <Label htmlFor="age">Age *</Label>
             <Input
-              id="ehrId"
-              placeholder="e.g. EHR2024004"
-              value={ehrId}
-              onChange={(e) => setEhrId(e.target.value)}
+              id="age"
+              type="number"
+              placeholder="e.g. 35"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
             />
           </div>
 
