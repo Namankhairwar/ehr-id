@@ -206,22 +206,69 @@ const DoctorDashboard = () => {
               </div>
             </div>
 
-            {searchQuery && (
-              <Card className="medical-card">
-                <CardHeader>
-                  <CardTitle>Search Results</CardTitle>
-                  <CardDescription>
-                    You can only access records for patients who have granted you permission
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center py-8 text-muted-foreground">
-                    <Search className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                    <p>Enter a search term to find patient records</p>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+            {searchQuery && (() => {
+              const query = searchQuery.toLowerCase();
+              const results = authorizedPatients.filter(
+                (p) =>
+                  p.name.toLowerCase().includes(query) ||
+                  p.ehrId.toLowerCase().includes(query) ||
+                  p.condition.toLowerCase().includes(query)
+              );
+              return (
+                <Card className="medical-card">
+                  <CardHeader>
+                    <CardTitle>Search Results</CardTitle>
+                    <CardDescription>
+                      {results.length > 0
+                        ? `Found ${results.length} matching patient(s)`
+                        : 'No matching patients found'}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {results.length > 0 ? (
+                      <div className="grid gap-4">
+                        {results.map((patient) => (
+                          <div
+                            key={patient.id}
+                            className="flex items-center justify-between p-4 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
+                          >
+                            <div className="flex items-center space-x-4">
+                              <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                                <Users className="w-5 h-5 text-primary" />
+                              </div>
+                              <div>
+                                <h3 className="font-semibold text-foreground">{patient.name}</h3>
+                                <p className="text-sm text-muted-foreground">
+                                  EHR ID: {patient.ehrId} • {patient.condition}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex items-center space-x-3">
+                              <Badge className={getPriorityColor(patient.priority)}>
+                                {patient.priority}
+                              </Badge>
+                              <MedicalButton
+                                variant="outline"
+                                size="sm"
+                                onClick={() => navigate(`/doctor/patient/${patient.id}`)}
+                              >
+                                <Eye className="w-4 h-4 mr-1" />
+                                View Records
+                              </MedicalButton>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-8 text-muted-foreground">
+                        <Search className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                        <p>No patients match "{searchQuery}"</p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              );
+            })()}
 
             {/* Emergency Access */}
             <Card className="medical-card border-red-200 bg-gradient-to-r from-red-50 to-orange-50">
