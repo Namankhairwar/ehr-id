@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { MedicalButton } from "@/components/ui/button-variants";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 interface NewPatient {
   id: string;
@@ -37,33 +38,49 @@ interface AddPatientDialogProps {
 const AddPatientDialog = ({ onAdd, existingCount }: AddPatientDialogProps) => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
-  const [ehrId, setEhrId] = useState("");
+  const [age, setAge] = useState("");
   const [condition, setCondition] = useState("");
   const [priority, setPriority] = useState("normal");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
-    if (!name.trim() || !ehrId.trim() || !condition.trim()) {
+  const handleSubmit = async () => {
+    if (!name.trim() || !age.trim() || !condition.trim()) {
       toast.error("Please fill in all required fields");
       return;
     }
 
-    const today = new Date().toISOString().split("T")[0];
-    const newPatient: NewPatient = {
-      id: String(existingCount + 1),
-      name: name.trim(),
-      ehrId: ehrId.trim(),
-      lastVisit: today,
-      condition: condition.trim(),
-      priority,
-    };
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from("Pateint")
+        .insert({ P_Name: name.trim(), P_Age: parseInt(age) })
+        .select()
+        .single();
 
-    onAdd(newPatient);
-    toast.success(`${name} added as an authorized patient`);
-    setName("");
-    setEhrId("");
-    setCondition("");
-    setPriority("normal");
-    setOpen(false);
+      if (error) throw error;
+
+      const today = new Date().toISOString().split("T")[0];
+      const newPatient: NewPatient = {
+        id: String(data.EHRId),
+        name: data.P_Name,
+        ehrId: `EHR${data.EHRId}`,
+        lastVisit: today,
+        condition: condition.trim(),
+        priority,
+      };
+
+      onAdd(newPatient);
+      toast.success(`${name} added and saved to database (EHR ID: ${data.EHRId})`);
+      setName("");
+      setAge("");
+      setCondition("");
+      setPriority("normal");
+      setOpen(false);
+    } catch (err: any) {
+      toast.error(err.message || "Failed to save patient");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
