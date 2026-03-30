@@ -14,7 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      Pateint: {
+        Row: {
+          EHRId: number
+          P_Age: number | null
+          P_Name: string
+        }
+        Insert: {
+          EHRId?: number
+          P_Age?: number | null
+          P_Name?: string
+        }
+        Update: {
+          EHRId?: number
+          P_Age?: number | null
+          P_Name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
