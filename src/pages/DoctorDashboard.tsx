@@ -7,6 +7,7 @@ import { MedicalButton } from "@/components/ui/button-variants";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { mockPatient } from "@/data/mockData";
 import { useNavigate } from "react-router-dom";
+import AddPatientDialog from "@/components/AddPatientDialog";
 
 const DoctorDashboard = () => {
   const navigate = useNavigate();
