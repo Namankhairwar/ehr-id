@@ -147,10 +147,7 @@ const DoctorDashboard = () => {
           <TabsContent value="patients" className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold text-foreground">Authorized Patients</h2>
-              <MedicalButton>
-                <Plus className="w-4 h-4 mr-2" />
-                Request Access
-              </MedicalButton>
+              <AddPatientDialog onAdd={handleAddPatient} existingCount={authorizedPatients.length} />
             </div>
             
             <div className="grid gap-4">
