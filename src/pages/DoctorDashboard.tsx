@@ -7,14 +7,13 @@ import { MedicalButton } from "@/components/ui/button-variants";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { mockPatient } from "@/data/mockData";
 import { useNavigate } from "react-router-dom";
+import AddPatientDialog from "@/components/AddPatientDialog";
 
 const DoctorDashboard = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedPatient, setSelectedPatient] = useState(mockPatient);
-
-  // Mock data for doctor's authorized patients
-  const authorizedPatients = [
+  const [authorizedPatients, setAuthorizedPatients] = useState([
     {
       id: '1',
       name: 'Sarah Johnson',
@@ -39,7 +38,11 @@ const DoctorDashboard = () => {
       condition: 'Hypertension',
       priority: 'medium',
     },
-  ];
+  ]);
+
+  const handleAddPatient = (patient: typeof authorizedPatients[0]) => {
+    setAuthorizedPatients((prev) => [...prev, patient]);
+  };
 
   const todayAppointments = [
     { time: '09:00', patient: 'Sarah Johnson', type: 'Follow-up', status: 'confirmed' },
@@ -144,10 +147,7 @@ const DoctorDashboard = () => {
           <TabsContent value="patients" className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold text-foreground">Authorized Patients</h2>
-              <MedicalButton>
-                <Plus className="w-4 h-4 mr-2" />
-                Request Access
-              </MedicalButton>
+              <AddPatientDialog onAdd={handleAddPatient} existingCount={authorizedPatients.length} />
             </div>
             
             <div className="grid gap-4">
